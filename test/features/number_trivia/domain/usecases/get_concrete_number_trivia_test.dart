@@ -30,11 +30,11 @@ void main() {
 
     // 2) act
     // The "act" phase of the test. Call the not-yet-existent method.
-    final expectedResult = await usecase(NumberTriviParams(number: tNumber));
+    final acualResult = await usecase(NumberTriviParams(number: tNumber));
 
     // 3) assert
     // UseCase should simply return whatever was returned from the Repository
-    expect(expectedResult, Right(tNumberTriviaEntity));
+    expect(acualResult, Right(tNumberTriviaEntity));
     // optional
     // Verify that the method has been called on the Repository
     verify(mockNumberTriviaRepository.getConcreteNumberTrivia(tNumber));

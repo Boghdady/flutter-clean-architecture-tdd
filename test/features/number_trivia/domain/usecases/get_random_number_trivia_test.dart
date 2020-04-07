@@ -26,9 +26,9 @@ void main() {
     when(mockNumberTriviaRepository.getRandomNumberTrivia())
         .thenAnswer((_) async => Right(tNumberTriviaEntity));
     // act
-    final result = await usecase(NoParams());
+    final acualResult = await usecase(NoParams());
     // assert
-    expect(result, Right(tNumberTriviaEntity));
+    expect(acualResult, Right(tNumberTriviaEntity));
     // optional
     verify(mockNumberTriviaRepository.getRandomNumberTrivia());
     verifyNoMoreInteractions(mockNumberTriviaRepository);
