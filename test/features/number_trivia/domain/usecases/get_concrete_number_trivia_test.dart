@@ -6,14 +6,14 @@ import 'package:mockito/mockito.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 // This usecase will get it's data from NumberTriviaRepository
-class MockNumberTriviaRepository extends Mock
+class MockNumberTriviaRepositoryDomain extends Mock
     implements NumberTriviaRepositoryDomain {}
 
 void main() {
   GetConcreteNumberTriviaUseCase usecase;
-  MockNumberTriviaRepository mockNumberTriviaRepository;
+  MockNumberTriviaRepositoryDomain mockNumberTriviaRepository;
   setUp(() {
-    mockNumberTriviaRepository = MockNumberTriviaRepository();
+    mockNumberTriviaRepository = MockNumberTriviaRepositoryDomain();
     usecase = GetConcreteNumberTriviaUseCase(mockNumberTriviaRepository);
   });
 
