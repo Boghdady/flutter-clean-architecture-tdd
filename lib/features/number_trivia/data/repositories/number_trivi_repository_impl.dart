@@ -5,7 +5,7 @@ import '../../../../core/error/failures.dart';
 import '../../../../core/error/exceptions.dart';
 import '../../../../core/network_connection/network_info.dart';
 import '../../domain/entities/number_trivia.dart';
-import '../../domain/repositories/number_trivia_repository.dart';
+import '../../domain/repositories/number_trivia_repository_domain.dart';
 import '../datasources/number_trivia_local_data_source.dart';
 import '../datasources/number_trivia_remote_data_source.dart';
 
