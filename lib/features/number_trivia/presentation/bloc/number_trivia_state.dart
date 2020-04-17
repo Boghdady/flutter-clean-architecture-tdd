@@ -14,7 +14,7 @@ class Empty extends NumberTriviaState {
 
 class Loading extends NumberTriviaState {
   @override
-  List<Object> get props => null;
+  List<Object> get props => [];
 }
 
 class Loaded extends NumberTriviaState {
