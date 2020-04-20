@@ -58,5 +58,27 @@ void main() {
       // 3) checking
       verify(mockInputConverter.stringToUnsignedInteger(tNumberString));
     });
+
+    /*
+    With Bloc, you call dispatch with an Event to execute the logic, but dispatch itself returns void. 
+    The actual values are emitted from a completely different place - from the  Stream contained inside a state field of the Bloc.
+    */
+    test('should emit [Error] state when the input is invalid', () async {
+      // 1) preparing
+      when(mockInputConverter.stringToUnsignedInteger(any))
+          .thenReturn(Left(InvalidInputFailure()));
+
+      // 3) checking later
+      final expected = [
+        // The initial state is always emitted first
+        Empty(),
+        Error(message: INVALID_INPUT_FAILURE_MESSAGE),
+      ];
+      //  the Stream should emit the values from the List in a precise order with the emitsInOrder matcher
+      expectLater(bloc, emitsInOrder(expected));
+
+      // 2) implementation
+      bloc.add(GetNumberTriviaConcreteEvent(tNumberString));
+    });
   });
 }
