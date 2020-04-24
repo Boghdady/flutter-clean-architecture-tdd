@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:clean_architecture_tdd/core/error/failures.dart';
+import 'package:clean_architecture_tdd/core/usecases/base_usecase.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 
@@ -48,10 +50,39 @@ class NumberTriviaBloc extends Bloc<NumberTriviaEvent, NumberTriviaState> {
         (failure) async* {
           yield Error(message: INVALID_INPUT_FAILURE_MESSAGE);
         },
-        // Although the "success case" doesn't interest us with the current test,
-        // we still have to handle it somehow.
-        (integer) => throw UnimplementedError(),
+        // implements getConcreteNumberTriviaUseCase
+        (integer) async* {
+          yield Loading();
+          final failureOrTrivia = await getConcreteNumberTriviaUseCase(
+            NumberTriviParams(number: integer),
+          );
+          yield failureOrTrivia.fold(
+            (failure) => Error(message: _mapFailureToMessage(failure)),
+            (trivia) => Loaded(numberTriviaEntity: trivia),
+          );
+        },
       );
+    } else if (event is GetNumberTriviaRandomEvent) {
+      yield Loading();
+      final failureOrTrivia = await getRandomNumberTriviaUseCase(
+        NoParams(),
+      );
+      yield failureOrTrivia.fold(
+        (failure) => Error(message: _mapFailureToMessage(failure)),
+        (trivia) => Loaded(numberTriviaEntity: trivia),
+      );
+    }
+  }
+
+  String _mapFailureToMessage(Failure failure) {
+    // Instead of a regular 'if (failure is ServerFailure)...'
+    switch (failure.runtimeType) {
+      case ServerFailure:
+        return SERVER_FAILURE_MESSAGE;
+      case CacheFailure:
+        return CACHE_FAILURE_MESSAGE;
+      default:
+        return 'Unexpected Error';
     }
   }
 }
